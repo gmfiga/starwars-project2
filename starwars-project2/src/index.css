@@ -129,9 +129,9 @@ section#films ul {
   padding: 0;
 }
 
-section#planets a,
-section#characters a,
-section#films a {
+section#planets li,
+section#characters li,
+section#films li {
   display: inline-block;
   text-decoration: none;
   font-size: 1.1em;
