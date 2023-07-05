@@ -59,6 +59,17 @@ app.get("/api/characters", (req, res) => {
     })
 });
 
+app.get("/api/characters/:id", (req, res) => {
+  dao.findCharacter( req.params.id,
+    (character) => {
+        if(!character) {
+            res.status(404).end();
+        } else {
+            res.send(character);
+        }
+    })
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port:${port}`);
 });

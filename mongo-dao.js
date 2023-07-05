@@ -37,3 +37,8 @@ module.exports.findAllCharacters = function(callback) {
     let dataPromise = db.collection("characters").find({}).toArray();
     dataPromise.then((characters) => callback(characters));
 }
+
+module.exports.findCharacter = function(id, callback) {
+    let dataPromise = db.collection("characters").findOne({"id": +id});
+    dataPromise.then((character) => callback(character));
+}
