@@ -13,42 +13,45 @@ async function startup() {
 }
 startup();
 
-module.exports.findAllPlanets = function(callback) {
-    let dataPromise = db.collection("planets").find({}).toArray();
-    dataPromise.then((planets) => callback(planets));
-}
+module.exports.findAllPlanets = function (callback) {
+  let dataPromise = db.collection("planets").find({}).toArray();
+  dataPromise.then((planets) => callback(planets));
+};
 
-module.exports.findPlanet = function(id, callback) {
-    let dataPromise = db.collection("planets").findOne({"id": +id});
-    dataPromise.then((planet) => callback(planet));
-}
+module.exports.findPlanet = function (id, callback) {
+  let dataPromise = db.collection("planets").findOne({ id: +id });
+  dataPromise.then((planet) => callback(planet));
+};
 
-module.exports.findFilmsWithPlanet = async function(id, callback) {
-    let dataPromise = db.collection("films_planets").find({"planet_id": +id});
-    
-    let dataPromiseArray = await dataPromise.toArray();
-    
-    let filmPromises = dataPromiseArray.map((filmMatch) => {
-        return db.collection("films").findOne({"id": +filmMatch.film_id});
-    });
-      
-    await Promise.all(filmPromises).then((films) => callback(films));
-}
+module.exports.findFilmsWithPlanet = async function (id, callback) {
+  let dataPromise = db.collection("films_planets").find({ planet_id: +id });
 
-module.exports.findCharsWithPlanet = function(id, callback) {
-    let dataPromise = db.collection("characters").find({"homeworld": +id}).toArray();
-    dataPromise.then((characters) => callback(characters));
-}
+  let dataPromiseArray = await dataPromise.toArray();
 
-module.exports.findAllCharacters = function(callback) {
-    let dataPromise = db.collection("characters").find({}).toArray();
-    dataPromise.then((characters) => callback(characters));
-}
+  let filmPromises = dataPromiseArray.map((filmMatch) => {
+    return db.collection("films").findOne({ id: +filmMatch.film_id });
+  });
 
-module.exports.findCharacter = function(id, callback) {
-    let dataPromise = db.collection("characters").findOne({"id": +id});
-    dataPromise.then((character) => callback(character));
-}
+  await Promise.all(filmPromises).then((films) => callback(films));
+};
+
+module.exports.findCharsWithPlanet = function (id, callback) {
+  let dataPromise = db
+    .collection("characters")
+    .find({ homeworld: +id })
+    .toArray();
+  dataPromise.then((characters) => callback(characters));
+};
+
+module.exports.findAllCharacters = function (callback) {
+  let dataPromise = db.collection("characters").find({}).toArray();
+  dataPromise.then((characters) => callback(characters));
+};
+
+module.exports.findCharacter = function (id, callback) {
+  let dataPromise = db.collection("characters").findOne({ id: +id });
+  dataPromise.then((character) => callback(character));
+};
 
 module.exports.findAllFilms = function (callback) {
   let dataPromise = db.collection("films").find({}).toArray();
@@ -99,7 +102,7 @@ module.exports.findCharacterFilms = async function (character_id, callback) {
   let filmMatchArray = await filmMatchPromise.toArray();
 
   let filmPromises = filmMatchArray.map((filmMatch) => {
-    return db.collection("planets").findOne({ id: +filmMatch.film_id });
+    return db.collection("films").findOne({ id: +filmMatch.film_id });
   });
 
   await Promise.all(filmPromises).then((film) => callback(film));
