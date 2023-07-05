@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require("express");
 var dao = require("./mongo-dao");
 
@@ -5,6 +6,7 @@ const app = express();
 const port = 4000;
 
 app.use(express.json()); //Parse JSON body
+app.use(cors());
 
 app.get("/api/planets", (req, res) => {
   dao.findAllPlanets(
@@ -57,6 +59,7 @@ app.get("/api/characters", (req, res) => {
             res.status(404).end();
         } else {
             res.send(characters);
+            console.log(characters)
         }
     })
 });
