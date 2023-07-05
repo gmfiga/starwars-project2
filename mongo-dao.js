@@ -23,9 +23,16 @@ module.exports.findPlanet = function(id, callback) {
     dataPromise.then((planet) => callback(planet));
 }
 
-module.exports.findFilmsWithPlanet = function(id, callback) {
-    let dataPromise = db.collection("films_planets").find({"planet_id": +id}).toArray();
-    dataPromise.then((films) => callback(films));
+module.exports.findFilmsWithPlanet = async function(id, callback) {
+    let dataPromise = db.collection("films_planets").find({"planet_id": +id});
+    
+    let dataPromiseArray = await dataPromise.toArray();
+    
+    let filmPromises = dataPromiseArray.map((filmMatch) => {
+        return db.collection("films").findOne({"id": +filmMatch.film_id});
+    });
+      
+    await Promise.all(filmPromises).then((films) => callback(films));
 }
 
 module.exports.findCharsWithPlanet = function(id, callback) {
