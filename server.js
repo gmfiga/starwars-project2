@@ -13,7 +13,39 @@ app.get("/api/planets", (req, res) => {
             res.send(planets);
         }
     })
-  //res.send({ name: "Test", planet: "Tatooine" });
+});
+
+app.get("/api/planets/:id", (req, res) => {
+  dao.findPlanet( req.params.id,
+    (planet) => {
+        if(!planet) {
+            res.status(404).end();
+        } else {
+            res.send(planet);
+        }
+    })
+});
+
+app.get("/api/planets/:id/films", (req, res) => {
+  dao.findFilmsWithPlanet( req.params.id,
+    (films) => {
+        if(!films) {
+            res.status(404).end();
+        } else {
+            res.send(films);
+        }
+    })
+});
+
+app.get("/api/planets/:id/characters", (req, res) => {
+  dao.findCharsWithPlanet( req.params.id,
+    (chars) => {
+        if(!chars) {
+            res.status(404).end();
+        } else {
+            res.send(chars);
+        }
+    })
 });
 
 app.listen(port, () => {

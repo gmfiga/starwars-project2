@@ -17,3 +17,18 @@ module.exports.findAllPlanets = function(callback) {
     let dataPromise = db.collection("planets").find({}).toArray();
     dataPromise.then((planets) => callback(planets));
 }
+
+module.exports.findPlanet = function(id, callback) {
+    let dataPromise = db.collection("planets").findOne({"id": +id});
+    dataPromise.then((planet) => callback(planet));
+}
+
+module.exports.findFilmsWithPlanet = function(id, callback) {
+    let dataPromise = db.collection("films_planets").find({"planet_id": +id}).toArray();
+    dataPromise.then((films) => callback(films));
+}
+
+module.exports.findCharsWithPlanet = function(id, callback) {
+    let dataPromise = db.collection("characters").find({"homeworld": +id}).toArray();
+    dataPromise.then((characters) => callback(characters));
+}
