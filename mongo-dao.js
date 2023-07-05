@@ -1,0 +1,19 @@
+const mongodb = require("mongodb"); // mongo client library  
+const { MongoClient } = require('mongodb');
+
+const url = "mongodb://localhost:27017";
+const dbName = "Project2";
+let db;
+
+async function startup() {
+    let client = new MongoClient(url);
+    await client.connect();
+    db = client.db(dbName)
+    //collection = db.collection("planets");
+}
+startup();
+
+module.exports.findAllPlanets = function(callback) {
+    let dataPromise = db.collection("planets").find({}).toArray();
+    dataPromise.then((planets) => callback(planets));
+}
