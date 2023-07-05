@@ -48,6 +48,17 @@ app.get("/api/planets/:id/characters", (req, res) => {
     })
 });
 
+app.get("/api/characters", (req, res) => {
+  dao.findAllCharacters(
+    (characters) => {
+        if(!characters) {
+            res.status(404).end();
+        } else {
+            res.send(characters);
+        }
+    })
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port:${port}`);
 });

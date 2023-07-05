@@ -32,3 +32,8 @@ module.exports.findCharsWithPlanet = function(id, callback) {
     let dataPromise = db.collection("characters").find({"homeworld": +id}).toArray();
     dataPromise.then((characters) => callback(characters));
 }
+
+module.exports.findAllCharacters = function(callback) {
+    let dataPromise = db.collection("characters").find({}).toArray();
+    dataPromise.then((characters) => callback(characters));
+}
