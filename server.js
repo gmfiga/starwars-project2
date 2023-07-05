@@ -26,6 +26,7 @@ app.get("/api/planets/:id", (req, res) => {
             res.status(404).end();
         } else {
             res.send(planet);
+            console.log(planet)
         }
     })
 });

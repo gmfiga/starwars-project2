@@ -5,14 +5,28 @@ import { useState, useEffect } from 'react';
 const CharacterPage = () => {
 
     const [character, setCharacter] = useState({});
+    const [planet, setPlanet] = useState({});
+    const [films, setFilms] = useState([]);
     let params = useParams();
 
-    useEffect(() => {
+    useEffect(() => { 
         //fetch
         fetch(`http://localhost:4000/api/characters/${params.id}`)
         .then(res => res.json())
-        .then(char => setCharacter(char));
-    }, []);
+        .then(char => setCharacter(char)).then(
+            fetch(`http://localhost:4000/api/characters/${params.id}/films`)
+            .then(res => res.json())
+            .then(films => setFilms(films))
+        );
+    }, [params]);
+
+    useEffect(() => { 
+        if (character.homeworld) {
+            fetch(`http://localhost:4000/api/planets/${character.homeworld}`)
+            .then(res => res.json()) 
+            .then(planet => setPlanet(planet));
+        }
+    }, [character]);
 
   return (
     <>
@@ -24,11 +38,15 @@ const CharacterPage = () => {
         </section>
         <section id="planets">
         <h2>Homeworld</h2>
-            <p><span id="homeworld">{character.homeworld}</span></p>
+            <p><span id="homeworld">{planet.name}</span></p>
         </section>
         <section id="films">
             <h2>Films appeared in</h2>
-            <ul></ul>
+            <ul>
+                {films.map(
+                    (film) => {return <li key={film.id}>{film.title}</li>}
+                )}
+            </ul>
         </section>
     </>
   )
