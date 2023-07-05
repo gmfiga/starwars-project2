@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const CharacterPage = () => {
@@ -7,6 +7,8 @@ const CharacterPage = () => {
   const [planet, setPlanet] = useState({});
   const [films, setFilms] = useState([]);
   let params = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     //fetch
@@ -28,6 +30,14 @@ const CharacterPage = () => {
     }
   }, [character]);
 
+  const handleClickFilm = (id) => {
+    navigate(`/films/${id}`);
+  };
+
+  const handleClickPlanet = (id) => {
+    navigate(`/planets/${id}`);
+  };
+
   return (
     <>
       <h1 id="name">{character.name}</h1>
@@ -48,14 +58,20 @@ const CharacterPage = () => {
       <section id="planets">
         <h2>Homeworld</h2>
         <p>
-          <li id="homeworld">{planet.name}</li>
+          <li id="homeworld" onClick={(e) => handleClickPlanet(planet.id)}>
+            {planet.name}
+          </li>
         </p>
       </section>
       <section id="films">
         <h2>Films appeared in</h2>
         <ul>
           {films.map((film) => {
-            return <li key={film.id}>{film.title}</li>;
+            return (
+              <li key={film.id} onClick={(e) => handleClickFilm(film.id)}>
+                {film.title}
+              </li>
+            );
           })}
         </ul>
       </section>
