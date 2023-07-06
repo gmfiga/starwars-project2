@@ -1,4 +1,4 @@
-const cors = require('cors');
+const cors = require("cors");
 const express = require("express");
 var dao = require("./mongo-dao");
 
@@ -8,72 +8,67 @@ const port = 4000;
 app.use(express.json()); //Parse JSON body
 app.use(cors());
 
+app.use(express.static("./public"));
+
 app.get("/api/planets", (req, res) => {
-  dao.findAllPlanets(
-    (planets) => {
-        if(!planets) {
-            res.status(404).end();
-        } else {
-            res.send(planets);
-        }
-    })
+  dao.findAllPlanets((planets) => {
+    if (!planets) {
+      res.status(404).end();
+    } else {
+      res.send(planets);
+    }
+  });
 });
 
 app.get("/api/planets/:id", (req, res) => {
-  dao.findPlanet( req.params.id,
-    (planet) => {
-        if(!planet) {
-            res.status(404).end();
-        } else {
-            res.send(planet);
-            console.log(planet)
-        }
-    })
+  dao.findPlanet(req.params.id, (planet) => {
+    if (!planet) {
+      res.status(404).end();
+    } else {
+      res.send(planet);
+      console.log(planet);
+    }
+  });
 });
 
 app.get("/api/planets/:id/films", (req, res) => {
-  dao.findFilmsWithPlanet( req.params.id,
-    (films) => {
-        if(!films) {
-            res.status(404).end();
-        } else {
-            res.send(films);
-        }
-    })
+  dao.findFilmsWithPlanet(req.params.id, (films) => {
+    if (!films) {
+      res.status(404).end();
+    } else {
+      res.send(films);
+    }
+  });
 });
 
 app.get("/api/planets/:id/characters", (req, res) => {
-  dao.findCharsWithPlanet( req.params.id,
-    (chars) => {
-        if(!chars) {
-            res.status(404).end();
-        } else {
-            res.send(chars);
-        }
-    })
+  dao.findCharsWithPlanet(req.params.id, (chars) => {
+    if (!chars) {
+      res.status(404).end();
+    } else {
+      res.send(chars);
+    }
+  });
 });
 
 app.get("/api/characters", (req, res) => {
-  dao.findAllCharacters(
-    (characters) => {
-        if(!characters) {
-            res.status(404).end();
-        } else {
-            res.send(characters);
-            console.log(characters)
-        }
-    })
+  dao.findAllCharacters((characters) => {
+    if (!characters) {
+      res.status(404).end();
+    } else {
+      res.send(characters);
+    }
+  });
 });
 
 app.get("/api/characters/:id", (req, res) => {
-  dao.findCharacter( req.params.id,
-    (character) => {
-        if(!character) {
-            res.status(404).end();
-        } else {
-            res.send(character);
-        }
-    })
+  dao.findCharacter(req.params.id, (character) => {
+    if (!character) {
+      res.status(404).end();
+    } else {
+      res.send(character);
+    }
+  });
 });
 
 app.get("/api/films", (req, res) => {
